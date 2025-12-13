@@ -76,9 +76,9 @@ export async function execute(
   }
 }
 
-// Role IDs
-const CONSUMABLES_ROLE_ID = '1449212008053346336';
-const OFFICER_ROLE_ID = '1122362544363937802';
+// Role IDs from environment variables
+const CONSUMABLES_ROLE_ID = process.env.CONSUMABLES_ROLE_ID
+const OFFICER_ROLE_ID = process.env.OFFICER_ROLE_ID
 
 // Helper function to check if user has officer role
 function isOfficer(interaction: ChatInputCommandInteraction): boolean {

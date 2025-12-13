@@ -36,16 +36,6 @@ A friendly Discord bot for tracking consumable reimbursement ledger entries for 
    ```bash
    npm install
    ```
-
-3. **Set up environment variables**
-   
-   Create a `.env` file in the root directory:
-   ```env
-   DISCORD_TOKEN=your_bot_token_here
-   DISCORD_CLIENT_ID=your_client_id_here
-   DISCORD_GUILD_ID=your_guild_id_here
-   ```
-
 4. **Initialize the database**
    ```bash
    npx prisma migrate dev --name init
