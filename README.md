@@ -1,20 +1,35 @@
-# 💰 Discord Ledger Bot
+# 💖 Doki Doki WoW Bot
 
-A friendly Discord bot for tracking consumable reimbursement ledger entries for World of Warcraft guilds! Built with Node.js, TypeScript, discord.js v14, and Prisma with SQLite.
-
-> 💡 **Made with Cursor Composer 1**
+A friendly Discord bot for **Doki Doki Kawaii Club** - your WoW guild management companion! Track consumable reimbursements and BoE sales with ease.
 
 ## ✨ Features
 
-- **`/ledger add`** - Add a new consumable reimbursement entry 📝
-- **`/ledger my`** - View your unpaid ledger entries 👀
-- **`/ledger all`** - View all unpaid entries grouped by raider 📊
-- **`/ledger pay`** - Mark an entry as paid (Officer only) ✅
+### 🧪 Consumable Reimbursements
+Track gold spent on raid consumables for reimbursement.
+- `/consumables add` - Log gold spent on consumables
+- `/consumables my` - View your unpaid entries
+- `/consumables all` - View all unpaid entries *(Officer only)*
+- `/consumables pay` - Mark as paid *(Officer only)*
+
+### 📦 BoE Sales Tracking
+Track Bind on Equip items from raids with automatic **20% player / 80% guild** split!
+
+```
+Neg - [H] Plate Helmet - 1,500,000g SOLD - 300k PAID - 1.2M GUILD
+```
+
+- `/boe add` - Record a sold BoE (auto-calculates split)
+- `/boe list` - View BoEs awaiting payout
+- `/boe pay` - Mark player as paid *(Officer only)*
+- `/boe delete` - Remove entry *(Officer only)*
+
+### ❓ Help
+- `/help` - Display all available commands
 
 ## 🎯 Role Permissions
 
-- **Consumables Role** - Can add entries and view their own entries (`/ledger add`, `/ledger my`, `/ledger all`)
-- **Officer Role** - Full access to all commands including marking entries as paid
+- **Consumables Role** - Can add ledger entries and BoE sales
+- **Officer Role** - Full access including pay/delete commands
 
 ## 🚀 Quick Start
 
@@ -26,104 +41,52 @@ A friendly Discord bot for tracking consumable reimbursement ledger entries for 
 
 ### Installation
 
-1. **Clone the repository**
+1. **Clone and install**
    ```bash
    git clone <repository-url>
    cd discord-ledger-bot
-   ```
-
-2. **Install dependencies**
-   ```bash
    npm install
    ```
 
-3. **Initialize the database**
-   ```bash
-   npx prisma migrate dev --name init
-   npx prisma generate
+2. **Configure environment**
+   
+   Create a `.env` file:
+   ```env
+   DISCORD_TOKEN=your_bot_token
+   DISCORD_CLIENT_ID=your_client_id
+   DISCORD_GUILD_ID=your_guild_id
+   OFFICER_ROLE_ID=your_officer_role_id
+   CONSUMABLES_ROLE_ID=your_consumables_role_id
+   DATABASE_URL="file:./dev.db"
    ```
 
-4. **Register slash commands**
+3. **Setup database**
+   ```bash
+   npx prisma migrate dev
+   ```
+
+4. **Register commands and start**
    ```bash
    npm run register
-   ```
-
-5. **Start the bot**
-   
-   Development mode (with hot reload):
-   ```bash
    npm run dev
    ```
-   
-   Production mode:
-   ```bash
-   npm run build
-   npm start
-   ```
 
-## 📖 Command Reference
-
-### `/ledger add`
-Add a new consumable reimbursement entry.
-
-| Option | Type | Required | Description |
-|--------|------|----------|-------------|
-| item | string | ✅ | Name of the item |
-| gold | integer | ✅ | Gold spent (minimum: 0) |
-
-### `/ledger my`
-View your own unpaid ledger entries with total gold owed.
-
-### `/ledger all`
-*Officer only* - View all unpaid entries grouped by raider name.
-
-### `/ledger pay`
-*Officer only* - Mark a ledger entry as paid.
-
-| Option | Type | Required | Description |
-|--------|------|----------|-------------|
-| id | integer | ✅ | The entry ID to mark as paid |
-
-## 📁 Project Structure
-
-```
-discord-ledger-bot/
-├── prisma/
-│   └── schema.prisma      # Database schema
-├── src/
-│   ├── commands/
-│   │   └── ledger.ts      # All ledger subcommands
-│   ├── utils/
-│   │   └── registerCommands.ts  # Slash command registration
-│   └── index.ts           # Bot entry point
-├── .env                   # Environment variables (not in repo)
-├── package.json
-├── tsconfig.json
-└── README.md
-```
-
-## 🛠️ NPM Scripts
+## 🛠️ Commands
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Run bot in development mode with hot reload 🔥 |
-| `npm run build` | Compile TypeScript to JavaScript 📦 |
-| `npm start` | Run compiled bot (production) 🚀 |
-| `npm run register` | Register slash commands to Discord 📝 |
+| `npm run dev` | Development mode with hot reload |
+| `npm run build` | Compile TypeScript |
+| `npm start` | Production mode |
+| `npm run register` | Register slash commands |
 
-## 💾 Database Management
+## 💾 Database
 
-**View database in Prisma Studio:**
 ```bash
-npx prisma studio
+npx prisma studio    # View/edit data
+npx prisma migrate reset  # Reset database
 ```
 
-**Reset database:**
-```bash
-npx prisma migrate reset
-```
+---
 
-**Create a new migration after schema changes:**
-```bash
-npx prisma migrate dev --name your_migration_name
-```
+Made with 💕 for Doki Doki Kawaii Club

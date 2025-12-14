@@ -1,7 +1,7 @@
 {
-  "name": "discord-ledger-bot",
+  "name": "doki-doki-wow-bot",
   "version": "1.0.0",
-  "description": "Discord bot for tracking WoW guild consumable reimbursement ledger entries",
+  "description": "Discord bot for Doki Doki Kawaii Club - WoW guild management including consumable reimbursements and BoE tracking",
   "main": "dist/index.js",
   "scripts": {
     "postinstall": "prisma generate",

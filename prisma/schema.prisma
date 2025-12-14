@@ -15,6 +15,7 @@ model Raider {
   discordId String        @unique
   name      String
   entries   LedgerEntry[]
+  boes      BoE[]         @relation("Looter")
 }
 
 model LedgerEntry {
@@ -26,5 +27,22 @@ model LedgerEntry {
   paid        Boolean   @default(false)
   dateCreated DateTime  @default(now())
   datePaid    DateTime?
+}
+
+// BoE (Bind on Equip) tracking for guild raid drops
+model BoE {
+  id            Int       @id @default(autoincrement())
+  armorType     String    // Plate, Mail, Leather, Cloth, Accessory
+  slot          String    // Helm, Boots, Waist, Legs, Chest, etc.
+  difficulty    String    // N, H, M (Normal, Heroic, Mythic)
+  looter        Raider    @relation("Looter", fields: [looterId], references: [id])
+  looterId      Int
+  salePrice     Int       // Gold amount sold for
+  playerCut     Int       // 20% to player
+  guildCut      Int       // 80% to guild
+  paid          Boolean   @default(false) // Has player been paid?
+  dateAdded     DateTime  @default(now())
+  datePaid      DateTime?
+  notes         String?
 }
 
