@@ -115,38 +115,20 @@ function isAuthorized(interaction: ChatInputCommandInteraction): boolean {
   const member = interaction.member;
   if (!member || !member.roles) return false;
 
-  // Read env vars at runtime (not module load time)
-  const officerRoleIds: string[] = process.env.OFFICER_ROLE_IDS
-    ? process.env.OFFICER_ROLE_IDS.split(',').map(id => id.trim())
-    : [];
+  const officerRoleId = process.env.OFFICER_ROLE_ID || '';
   const veteranRoleId = process.env.VETERAN_ROLE_ID || '';
   
   // Get user's role IDs - handle both GuildMemberRoleManager and string array
   let userRoleIds: string[];
   if (Array.isArray(member.roles)) {
-    // API response: roles is string[]
     userRoleIds = member.roles;
   } else {
-    // Cached member: roles is GuildMemberRoleManager
     const roles = member.roles as GuildMemberRoleManager;
     userRoleIds = Array.from(roles.cache.keys());
   }
   
-  // Debug logging (can remove later)
-  console.log('🔐 Auth check:', {
-    userId: interaction.user.id,
-    userRoles: userRoleIds,
-    officerRoleIds,
-    veteranRoleId,
-  });
-  
-  // Check if user has Officer role
-  const hasOfficerRole = officerRoleIds.some(roleId => userRoleIds.includes(roleId));
-  
-  // Check if user has Veteran role
+  const hasOfficerRole = officerRoleId ? userRoleIds.includes(officerRoleId) : false;
   const hasVeteranRole = veteranRoleId ? userRoleIds.includes(veteranRoleId) : false;
-
-  console.log('🔐 Result:', { hasOfficerRole, hasVeteranRole });
 
   return hasOfficerRole || hasVeteranRole;
 }
