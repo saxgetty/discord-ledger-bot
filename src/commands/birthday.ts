@@ -2,16 +2,9 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   EmbedBuilder,
-  PermissionFlagsBits,
   GuildMemberRoleManager,
 } from 'discord.js';
 import { PrismaClient } from '@prisma/client';
-
-// Role IDs that can manage birthdays (from env)
-const OFFICER_ROLE_IDS: string[] = process.env.OFFICER_ROLE_IDS
-  ? process.env.OFFICER_ROLE_IDS.split(',').map(id => id.trim())
-  : [];
-const VETERAN_ROLE_ID = process.env.VETERAN_ROLE_ID || '';
 
 // Valid timezone options
 const TIMEZONE_CHOICES = [
@@ -124,11 +117,17 @@ function isAuthorized(interaction: ChatInputCommandInteraction): boolean {
 
   const roles = member.roles as GuildMemberRoleManager;
   
+  // Read env vars at runtime (not module load time)
+  const officerRoleIds: string[] = process.env.OFFICER_ROLE_IDS
+    ? process.env.OFFICER_ROLE_IDS.split(',').map(id => id.trim())
+    : [];
+  const veteranRoleId = process.env.VETERAN_ROLE_ID || '';
+  
   // Check if user has Officer role
-  const hasOfficerRole = OFFICER_ROLE_IDS.some(roleId => roles.cache.has(roleId));
+  const hasOfficerRole = officerRoleIds.some(roleId => roles.cache.has(roleId));
   
   // Check if user has Veteran role
-  const hasVeteranRole = VETERAN_ROLE_ID ? roles.cache.has(VETERAN_ROLE_ID) : false;
+  const hasVeteranRole = veteranRoleId ? roles.cache.has(veteranRoleId) : false;
 
   return hasOfficerRole || hasVeteranRole;
 }
