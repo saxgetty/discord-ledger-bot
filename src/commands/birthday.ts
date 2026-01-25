@@ -8,6 +8,7 @@ import { PrismaClient } from '@prisma/client';
 
 // Valid timezone options
 const TIMEZONE_CHOICES = [
+  { name: 'AKST (Alaska)', value: 'America/Anchorage' },
   { name: 'PST (Pacific)', value: 'America/Los_Angeles' },
   { name: 'MST (Mountain)', value: 'America/Denver' },
   { name: 'CST (Central)', value: 'America/Chicago' },
@@ -149,6 +150,7 @@ function getMonthName(month: number): string {
  */
 function getTimezoneDisplay(timezone: string): string {
   const tzMap: Record<string, string> = {
+    'America/Anchorage': 'AKST',
     'America/Los_Angeles': 'PST',
     'America/Denver': 'MST',
     'America/Chicago': 'CST',

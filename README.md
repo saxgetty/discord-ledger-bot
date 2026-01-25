@@ -35,7 +35,7 @@ Automatic birthday wishes posted at **midnight** in each user's local timezone!
 - `/birthday remove` - Remove a birthday *(Officer/Veteran only)*
 
 **Features:**
-- Timezone-aware posting (PST, CST, EST, GMT, CET, MST)
+- Timezone-aware posting (AKST, PST, MST, CST, EST, GMT, CET)
 - Posts at midnight in user's local time
 - Automatically skips users who have left the server
 - Only posts once per year per person
@@ -74,7 +74,7 @@ Automatic birthday wishes posted at **midnight** in each user's local timezone!
    DISCORD_TOKEN=your_bot_token
    DISCORD_CLIENT_ID=your_client_id
    DISCORD_GUILD_ID=your_guild_id
-   OFFICER_ROLE_IDS=your_officer_role_id
+   OFFICER_ROLE_ID=your_officer_role_id
    CONSUMABLES_ROLE_ID=your_consumables_role_id
    VETERAN_ROLE_ID=your_veteran_role_id
    BIRTHDAY_CHANNEL_ID=your_birthday_channel_id
