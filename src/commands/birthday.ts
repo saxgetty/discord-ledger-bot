@@ -81,6 +81,33 @@ export const data = new SlashCommandBuilder()
       )
   )
   .addSubcommand(subcommand =>
+    subcommand
+      .setName('edit')
+      .setDescription('Edit a birthday (Admin only)')
+      .addUserOption(option =>
+        option.setName('user').setDescription('The user to edit').setRequired(true)
+      )
+      .addIntegerOption(option =>
+        option
+          .setName('month')
+          .setDescription('New birth month (optional)')
+          .addChoices(...MONTH_CHOICES)
+      )
+      .addIntegerOption(option =>
+        option
+          .setName('day')
+          .setDescription('New birth day (optional)')
+          .setMinValue(1)
+          .setMaxValue(31)
+      )
+      .addStringOption(option =>
+        option
+          .setName('timezone')
+          .setDescription('New timezone (optional)')
+          .addChoices(...TIMEZONE_CHOICES)
+      )
+  )
+  .addSubcommand(subcommand =>
     subcommand.setName('list').setDescription('List all birthdays')
   )
   .addSubcommand(subcommand =>
@@ -144,6 +171,9 @@ export async function execute(
       break;
     case 'remove':
       await handleRemove(interaction, prisma);
+      break;
+    case 'edit':
+      await handleEdit(interaction, prisma);
       break;
     case 'list':
       await handleList(interaction, prisma);
@@ -240,6 +270,72 @@ async function handleRemove(
 
   await interaction.reply({
     content: `✅ Removed birthday for ${user.username}`,
+  });
+}
+
+async function handleEdit(
+  interaction: ChatInputCommandInteraction,
+  prisma: PrismaClient
+): Promise<void> {
+  if (!isAuthorized(interaction)) {
+    await interaction.reply({
+      content: '❌ You are not authorized to manage birthdays.',
+      ephemeral: true,
+    });
+    return;
+  }
+
+  const user = interaction.options.getUser('user', true);
+  const month = interaction.options.getInteger('month');
+  const day = interaction.options.getInteger('day');
+  const timezone = interaction.options.getString('timezone');
+
+  // Check if at least one field is provided
+  if (!month && !day && !timezone) {
+    await interaction.reply({
+      content: '❌ Please provide at least one field to edit (month, day, or timezone).',
+    });
+    return;
+  }
+
+  // Check if birthday exists
+  const existing = await prisma.birthday.findUnique({
+    where: { discordId: user.id },
+  });
+
+  if (!existing) {
+    await interaction.reply({
+      content: `❌ ${user.username} doesn't have a birthday set. Use \`/birthday add\` first.`,
+    });
+    return;
+  }
+
+  // Use existing values if not provided
+  const newMonth = month ?? existing.month;
+  const newDay = day ?? existing.day;
+  const newTimezone = timezone ?? existing.timezone;
+
+  // Validate day for the month
+  const daysInMonth = new Date(2024, newMonth, 0).getDate();
+  if (newDay > daysInMonth) {
+    await interaction.reply({
+      content: `❌ Invalid day. ${getMonthName(newMonth)} only has ${daysInMonth} days.`,
+    });
+    return;
+  }
+
+  // Update the birthday
+  await prisma.birthday.update({
+    where: { discordId: user.id },
+    data: {
+      month: newMonth,
+      day: newDay,
+      timezone: newTimezone,
+    },
+  });
+
+  await interaction.reply({
+    content: `✅ Updated birthday for ${user.username}: **${getMonthName(newMonth)} ${newDay}** (${getTimezoneDisplay(newTimezone)})`,
   });
 }
 

@@ -26,15 +26,17 @@ Neg - [H] Plate Helmet - 1,500,000g SOLD - 300k PAID - 1.2M GUILD
 - `/boe delete` - Remove entry *(Officer only)*
 
 ### 🎂 Birthday Announcements
-Automatic birthday wishes posted at 9 AM in each user's local timezone!
+Automatic birthday wishes posted at **midnight** in each user's local timezone!
 
 - `/birthday list` - View all registered birthdays
 - `/birthday next` - See the next 5 upcoming birthdays
-- `/birthday add` - Add a birthday *(Admin only)*
-- `/birthday remove` - Remove a birthday *(Admin only)*
+- `/birthday add` - Add a birthday *(Officer/Veteran only)*
+- `/birthday edit` - Edit a birthday *(Officer/Veteran only)*
+- `/birthday remove` - Remove a birthday *(Officer/Veteran only)*
 
 **Features:**
 - Timezone-aware posting (PST, CST, EST, GMT, CET, MST)
+- Posts at midnight in user's local time
 - Automatically skips users who have left the server
 - Only posts once per year per person
 
@@ -44,7 +46,8 @@ Automatic birthday wishes posted at 9 AM in each user's local timezone!
 ## 🎯 Role Permissions
 
 - **Consumables Role** - Can add ledger entries and BoE sales
-- **Officer Role** - Full access including pay/delete commands
+- **Veteran Role** - Can manage birthdays (add/edit/remove)
+- **Officer Role** - Full access including pay/delete commands and birthday management
 
 ## 🚀 Quick Start
 
@@ -71,8 +74,10 @@ Automatic birthday wishes posted at 9 AM in each user's local timezone!
    DISCORD_TOKEN=your_bot_token
    DISCORD_CLIENT_ID=your_client_id
    DISCORD_GUILD_ID=your_guild_id
-   OFFICER_ROLE_ID=your_officer_role_id
+   OFFICER_ROLE_IDS=your_officer_role_id
    CONSUMABLES_ROLE_ID=your_consumables_role_id
+   VETERAN_ROLE_ID=your_veteran_role_id
+   BIRTHDAY_CHANNEL_ID=your_birthday_channel_id
    DATABASE_URL="file:./dev.db"
    ```
 
