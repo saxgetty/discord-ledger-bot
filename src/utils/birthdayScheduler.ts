@@ -2,8 +2,8 @@ import * as cron from 'node-cron';
 import { Client, TextChannel } from 'discord.js';
 import { PrismaClient } from '@prisma/client';
 
-// Channel ID for birthday announcements
-const BIRTHDAY_CHANNEL_ID = '436750185368911874';
+// Channel ID for birthday announcements (from env)
+const BIRTHDAY_CHANNEL_ID = process.env.BIRTHDAY_CHANNEL_ID || '';
 
 // Hour to post birthday wishes (in user's local timezone)
 const BIRTHDAY_HOUR = 0; // 12 AM (midnight) - posts the moment their birthday starts

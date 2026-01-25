@@ -3,11 +3,15 @@ import {
   ChatInputCommandInteraction,
   EmbedBuilder,
   PermissionFlagsBits,
+  GuildMemberRoleManager,
 } from 'discord.js';
 import { PrismaClient } from '@prisma/client';
 
-// Your Discord user ID - only you can manage birthdays
-const ADMIN_USER_ID = '167108321428504586';
+// Role IDs that can manage birthdays (from env)
+const OFFICER_ROLE_IDS: string[] = process.env.OFFICER_ROLE_IDS
+  ? process.env.OFFICER_ROLE_IDS.split(',').map(id => id.trim())
+  : [];
+const VETERAN_ROLE_ID = process.env.VETERAN_ROLE_ID || '';
 
 // Valid timezone options
 const TIMEZONE_CHOICES = [
@@ -85,9 +89,21 @@ export const data = new SlashCommandBuilder()
 
 /**
  * Check if user is authorized to manage birthdays
+ * Allows: Officers and Veterans
  */
 function isAuthorized(interaction: ChatInputCommandInteraction): boolean {
-  return interaction.user.id === ADMIN_USER_ID;
+  const member = interaction.member;
+  if (!member || !member.roles) return false;
+
+  const roles = member.roles as GuildMemberRoleManager;
+  
+  // Check if user has Officer role
+  const hasOfficerRole = OFFICER_ROLE_IDS.some(roleId => roles.cache.has(roleId));
+  
+  // Check if user has Veteran role
+  const hasVeteranRole = VETERAN_ROLE_ID ? roles.cache.has(VETERAN_ROLE_ID) : false;
+
+  return hasOfficerRole || hasVeteranRole;
 }
 
 /**
