@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
 const BIRTHDAY_CHANNEL_ID = '436750185368911874';
 
 // Hour to post birthday wishes (in user's local timezone)
-const BIRTHDAY_HOUR = 9; // 9 AM
+const BIRTHDAY_HOUR = 0; // 12 AM (midnight) - posts the moment their birthday starts
 
 /**
  * Get the current date/time in a specific timezone
