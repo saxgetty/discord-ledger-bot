@@ -14,6 +14,7 @@ const TIMEZONE_CHOICES = [
   { name: 'AZ (Arizona)', value: 'America/Phoenix' },
   { name: 'CST (Central)', value: 'America/Chicago' },
   { name: 'EST (Eastern)', value: 'America/New_York' },
+  { name: 'BRT (Brazil)', value: 'America/Sao_Paulo' },
   { name: 'GMT (UK)', value: 'Europe/London' },
   { name: 'CET (Central Europe)', value: 'Europe/Paris' },
 ];
@@ -157,6 +158,7 @@ function getTimezoneDisplay(timezone: string): string {
     'America/Phoenix': 'AZ',
     'America/Chicago': 'CST',
     'America/New_York': 'EST',
+    'America/Sao_Paulo': 'BRT',
     'Europe/London': 'GMT',
     'Europe/Paris': 'CET',
   };
