@@ -35,7 +35,7 @@ Automatic birthday wishes posted at **midnight** in each user's local timezone!
 - `/birthday remove` - Remove a birthday *(Officer/Veteran only)*
 
 **Features:**
-- Timezone-aware posting (AKST, PST, MST, CST, EST, GMT, CET)
+- Timezone-aware posting (AKST, PST, MST, AZ, CST, EST, GMT, CET)
 - Posts at midnight in user's local time
 - Automatically skips users who have left the server
 - Only posts once per year per person
